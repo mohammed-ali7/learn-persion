@@ -1,0 +1,29 @@
+# Netlify response headers.
+# Placed in `public/` so Vite copies it into `dist/` on every build.
+# Works for both git deploys and manual drag & drop deploys.
+
+# --- Baseline security headers for every response ---
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+
+# --- Vite output: content-hashed filenames, safe to cache forever ---
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# --- Self-hosted static media: stable filenames, so revalidate often enough ---
+/audio/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+/fonts/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# --- HTML entry must never be cached, or users get a stale app after deploys ---
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate

@@ -1,0 +1,5 @@
+# Netlify SPA fallback rule.
+# Any URL that does not match a real file in the publish directory is rewritten
+# to /index.html with HTTP status 200, so deep links and refreshes never 404.
+# Existing files still win: a 200 rewrite only applies when no real file matches.
+/*    /index.html   200
